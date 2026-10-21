@@ -1,0 +1,21 @@
+# Virtual Environment
+.venv/
+env/
+venv/
+ENV/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# DuckDB database and WAL
+*.duckdb
+*.duckdb.wal
+
+# OS / Editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
