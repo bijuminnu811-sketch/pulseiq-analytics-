@@ -150,3 +150,54 @@ In `fact_task`, 20 planted defect rows were caught and routed to `quarantine.fac
 - [x] **Quarantined rows have a written reason:** Captured in `quarantine_reason` column with explicit diagnostic details.
 - [x] **Idempotence proved:** Running the pipeline multiple times produces identical, collision-free counts and tables.
 - [x] **Git Repository initialized & committed.**
+
+---
+
+## 7. Task 2: Star-Schema Analytical Warehouse (`warehouse.py`)
+
+- **Architecture:** Built conformed dimensions (`dim_employee` SCD Type 2, `dim_department`, `dim_date`, etc.) and 12 conformed fact models joined via surrogate keys.
+- **Mermaid ER Diagram:** Documented in [docs/star_schema_diagram.md](file:///c:/Users/binit/OneDrive/New%20folder/pulseiq_new/docs/star_schema_diagram.md).
+- **Row Count Reconciliation:** 100% matched across all 12 fact tables against Task 1 clean outputs.
+- **Orphan Resolution:**
+  - `fact_payroll`: 2 orphan employee records (`PI-X0003`, `PI-X0004`) gracefully mapped to default unknown dimension member `(-1, 'EMP-UNKNOWN')`.
+  - `fact_forecast`: 12 company-wide forecast rows resolved by adding consolidated member `'ALL'`.
+  - `fact_invoice_payment`: 1 payment references `INV-00385`, which was quarantined in Task 1 for payment mismatch. Zero unexplained orphans.
+- **Department Transfer Cost Rule:** Under the Economic Value Matching Principle and SCD Type 2 surrogate key mapping (`valid_from` to `valid_to`), an employee who transferred from Sales to Support on July 1st has their June compensation allocated **100% to Sales**.
+
+---
+
+## 8. Task 3: Automated Data Quality Gatekeeper (`dq_gatekeeper.py`)
+
+- **14 Automated Tests:** Evaluates Completeness, Validity, Uniqueness, and Consistency across incoming tables.
+- **Audit Table:** Results logged to `clean.dq_results` and `warehouse.dq_results`.
+- **Test Harness:** Injected 7 deliberate defect rows into isolated shadow tables, confirming 100% detection rate.
+- **Planted Issues Comparison:** All 11 planted defects from `04_Validation_Vault` (`dq_known_issues`) identified, audited, and cataloged in [docs/data_quality_report.md](file:///c:/Users/binit/OneDrive/New%20folder/pulseiq_new/docs/data_quality_report.md).
+- **Stop vs. Warn Policy:** Defined 7 Hard Stops (balance sheet imbalances, duplicates, orphan entities, SCD overlaps) and 7 Soft Warnings (individual transaction defects routed to quarantine).
+
+---
+
+## 9. Task 4: Governed Metric Layer (`metric_layer.py`)
+
+- **28 Governed Views:** Centralized under DuckDB schema `metrics.*`.
+- **Metric Catalog:** Exposed via `metrics.metric_catalog` with grains, formulas, and owners.
+- **Privacy Small-Group Masking:** Automatically suppresses cells where `distinct_employees < minimum_group_size` with `NULL` and `is_privacy_masked = TRUE` (e.g. protecting CEO in `D00`).
+- **5 Hand-Checked Verifications:**
+  1. `M01 (Headcount Sep 2026)` = 441
+  2. `M07 (Gross Pay Apr 2025)` = INR 52,740,110.43 (Exact match to reconciliation key)
+  3. `M09 (Payroll Cost Apr 2025)` = INR 53,363,392.08 (Exact match to reconciliation key)
+  4. `M13 (Attendance Rate Sep 2026)` = 95.19%
+  5. `M24 (Velocity T04 SP-38)` = 227 story points
+- **Attrition Denominator Standard:** Standardized on average headcount ($H_{\text{avg}}$) over start or end headcount to prevent growth dilution or small-cohort distortion. Detailed in [docs/metric_layer_report.md](file:///c:/Users/binit/OneDrive/New%20folder/pulseiq_new/docs/metric_layer_report.md).
+
+---
+
+## 10. Task 5: Executive Workforce Dashboard (`app.py`)
+
+- **Web App:** Multi-page Streamlit portal running at `http://localhost:8501`.
+- **Governance:** Reads 100% from `metrics.*` views; zero raw table access.
+- **3-Colour Discipline:** Corporate Navy (`#1E3A8A`), Growth Emerald (`#10B981`), and Alert Coral (`#EF4444`).
+- **Pages:**
+  - `app.py`: Workforce, Headcount & Talent Dynamics (5 CEO Questions Answered, KPI Cards, Growth Trend, Department Mix, Location Tier, Work Mode).
+  - `pages/1_Data_Quality_Gatekeeper.py`: Live audit status table and planted issue tracker.
+  - `pages/2_Metric_Catalog.py`: Searchable, filterable 28-metric catalog.
+
