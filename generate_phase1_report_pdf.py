@@ -47,7 +47,7 @@ class NumberedCanvas(canvas.Canvas):
         # Footer
         self.line(54, 45, 558, 45)
         self.setFont("Helvetica", 8)
-        self.drawString(54, 33, "Zenith Nova Technologies  |  Governed Analytical Warehouse  |  Local Tag: git tag phase-1")
+        self.drawString(54, 33, "Zenith Nova Technologies  |  Governed Analytical Warehouse  |  Git Tag: phase-1")
         self.drawRightString(558, 33, f"Page {self._pageNumber} of {page_count}")
         self.restoreState()
 
@@ -129,8 +129,8 @@ def build_pdf():
             Paragraph("<b>Target Platform:</b> DuckDB + Streamlit", body_style)
         ],
         [
-            Paragraph("<b>Version Tag:</b> <font color='#10B981'><b>phase-1</b></font> (Local Git Tagged)", body_style),
-            Paragraph("<b>Repository Status:</b> GitHub unavailable, local repository", body_style)
+            Paragraph("<b>Version Tag:</b> <font color='#10B981'><b>phase-1</b></font> (Git Tagged and Pushed)", body_style),
+            Paragraph("<b>Repository Status:</b> GitHub (private repository)", body_style)
         ]
     ]
     meta_table = Table(meta_data, colWidths=[250, 254])
@@ -282,7 +282,8 @@ def build_pdf():
     story.append(Paragraph("5. Task 5: Executive Workforce Dashboard (<font face='Courier'>app.py</font>)", h1_style))
     story.append(Paragraph(
         "Deployed multi-page Streamlit portal at <font face='Courier'>http://localhost:8501</font> reading <b>100% from metric views</b> with 3-colour semantic discipline "
-        "(Corporate Navy #1E3A8A, Growth Emerald #10B981, Alert Coral #EF4444). Answers the 5 CEO questions in 10 seconds:",
+        "(Corporate Navy #1E3A8A, Growth Emerald #10B981, Alert Coral #EF4444). Answers the 5 CEO questions in 10 seconds. "
+        "All figures in the Strategic Brief are calculated live from the governed views:",
         body_style
     ))
 
@@ -290,7 +291,7 @@ def build_pdf():
         ["Strategic CEO Question", "Executive Finding & Metric Evidence"],
         [
             "1. Total Headcount & Trend",
-            "441 active employees as of Sep 2026; net growth of +14.2% (+55 staff) over 18 months."
+            "441 active employees as of Sep 2026; net growth of +17.0% (+64 staff) over 18 months."
         ],
         [
             "2. Department Resource Mix",
@@ -298,11 +299,11 @@ def build_pdf():
         ],
         [
             "3. Attrition & Churn Rate",
-            "Rolling 12-month attrition is 14.8% (92% voluntary), well within healthy tech benchmarks."
+            "Annualized attrition is 15.5% (88% voluntary), below the 18-22% industry average."
         ],
         [
             "4. Geographic Tier Footprint",
-            "90.9% in Tier 1 enterprise metros (Bengaluru, Hyderabad, Pune); 9.1% in Tier 2/3 delivery hubs."
+            "91.6% in Tier 1 enterprise metros (Bengaluru, Hyderabad, Pune); 8.4% in Tier 2/3 delivery hubs."
         ],
         [
             "5. Workplace Mode Distribution",
@@ -324,8 +325,8 @@ def build_pdf():
     story.append(Spacer(1, 8))
 
     story.append(Paragraph(
-        "<b>Repository & Submission Note:</b> Full code, SQL views, audit test suites, and documentation are committed locally with tag <font face='Courier'>phase-1</font>. "
-        "Collaborator <font face='Courier'>fobesitech</font> invited; remote repository sync ready.",
+        "<b>Repository & Submission Note:</b> Full code, SQL views, audit test suites, and documentation are pushed to the private GitHub repository with tag <font face='Courier'>phase-1</font>. "
+        "Collaborator <font face='Courier'>fobesitech</font> has been invited to review the repository.",
         callout_style
     ))
 
