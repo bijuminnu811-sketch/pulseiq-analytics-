@@ -197,11 +197,15 @@ if len(date_range) == 2:
     start_d, end_d = date_range
     filtered_trend = df_trend[
         (df_trend['department_name'].isin(selected_depts)) &
-        (df_trend['month_start_date'] >= pd.to_datetime(start_d).date()) &
-        (df_trend['month_start_date'] <= pd.to_datetime(end_d).date())
+        (df_trend['month_start_date'] >= pd.to_datetime(start_d)) &
+        (df_trend['month_start_date'] <= pd.to_datetime(end_d))
     ]
 else:
     filtered_trend = df_trend[df_trend['department_name'].isin(selected_depts)]
+
+if filtered_trend.empty:
+    st.warning("No data for the selected filters. Please choose at least one department and a valid date range.")
+    st.stop()
 
 # Filtered KPI Calculations
 latest_date = filtered_trend['month_start_date'].max()
@@ -237,7 +241,7 @@ with col1:
     <div class="kpi-card">
         <div class="kpi-title">Active Headcount (M01)</div>
         <div class="kpi-value">{current_hc:,}</div>
-        <div class="kpi-subtitle">+{hc_growth_pct}% vs prior 12m ({hc_diff:+d})</div>
+        <div class="kpi-subtitle">{hc_growth_pct:+.1f}% vs prior 12m ({hc_diff:+d})</div>
     </div>
     """, unsafe_allow_html=True)
 
@@ -279,19 +283,67 @@ with col5:
 
 st.write("")
 
+# ---------------------------------------------------------------
+# Live values for Strategic Brief and chart titles
+# ---------------------------------------------------------------
+monthly_hc = filtered_trend.groupby('month_start_date')['headcount_end'].sum().sort_index()
+latest_d = monthly_hc.index.max()
+cur_hc = int(monthly_hc.iloc[-1])
+base_series = monthly_hc[monthly_hc.index <= latest_d - pd.DateOffset(months=18)]
+if base_series.empty:
+    base_series = monthly_hc.iloc[:1]
+base_hc = int(base_series.iloc[-1])
+base_label = base_series.index[-1].strftime('%B %Y')
+growth_pct = (cur_hc - base_hc) / base_hc * 100 if base_hc > 0 else 0.0
+
+# Months with positive net intake in the last 18 months
+recent_diff = monthly_hc.diff().dropna().tail(18)
+pos_months = int((recent_diff > 0).sum())
+n_months = int(len(recent_diff))
+
+# Department concentration
+dept_hc = (filtered_trend[filtered_trend['month_start_date'] == latest_d]
+           .groupby('department_name')['headcount_end'].sum()
+           .sort_values(ascending=False))
+tot_hc = dept_hc.sum()
+top = [(n, int(v), v / tot_hc * 100) for n, v in dept_hc.head(3).items()]
+while len(top) < 3:
+    top.append(("-", 0, 0.0))
+tech_pct = dept_hc.reindex(['Engineering', 'Data & AI'], fill_value=0).sum() / tot_hc * 100 if tot_hc > 0 else 0.0
+
+# Attrition and voluntary share (same value as the KPI card)
+vol_exits = filtered_trend['voluntary_exits'].sum()
+vol_share = (vol_exits / total_exits_period * 100) if total_exits_period > 0 else 0.0
+attr_vs_industry = "below" if attrition_annual_pct < 18 else ("within" if attrition_annual_pct <= 22 else "above")
+
+# Location tier
+tier1_pct = float(df_loc[df_loc['city_tier'] == 'Tier 1']['share_pct'].iloc[0]) if (not df_loc.empty and (df_loc['city_tier'] == 'Tier 1').any()) else 0.0
+tier23_pct = 100 - tier1_pct
+
+# Work mode
+def mode_stat(name):
+    row = df_mode[df_mode['work_mode'] == name]
+    if row.empty:
+        return 0, 0.0
+    return int(row['employee_count'].iloc[0]), float(row['share_pct'].iloc[0])
+
+hy_n, hy_pct = mode_stat('Hybrid')
+on_n, on_pct = mode_stat('Onsite')
+re_n, re_pct = mode_stat('Remote')
+
 # 5 CEO Questions Accordion
 with st.expander("📋 Strategic Brief: 5 Questions the CEO Asks About People (Answered)", expanded=False):
-    st.markdown("""
+    st.markdown(f"""
     1. **What is our total active headcount today, and are we expanding or contracting?**  
-       *Answer:* As of September 30, 2026, Zenith Nova employs **441 active professionals** (net growth of **+14.2%** over 18 months from 386 staff in April 2025).
+       *Answer:* As of {latest_d:%B %Y}, Zenith Nova employs **{cur_hc} active professionals** (net change of **{growth_pct:+.1f}%** over 18 months from {base_hc} staff in {base_label}).
     2. **Which business units represent our largest talent concentration?**  
-       *Answer:* **Engineering** is our core investment at **167 engineers (37.9%)**, followed by **Data & AI at 52 (11.8%)** and **Sales at 46 (10.4%)**. Over 49.7% of all personnel build or deploy tech products.
+       *Answer:* **{top[0][0]}** is our largest unit at **{top[0][1]} staff ({top[0][2]:.1f}%)**, followed by **{top[1][0]} at {top[1][1]} ({top[1][2]:.1f}%)** and **{top[2][0]} at {top[2][1]} ({top[2][2]:.1f}%)**. {tech_pct:.1f}% of all personnel are in Engineering and Data & AI.
     3. **What is our current annualized attrition rate, and is retention stable?**  
-       *Answer:* Company-wide 12-month rolling attrition stands at **14.8%**, below industry average of 18–22%. Over 92% of departures were voluntary resignations.
+       *Answer:* Annualized attrition stands at **{attrition_annual_pct}%**, {attr_vs_industry} the industry average of 18–22%. **{vol_share:.0f}%** of departures were voluntary resignations.
     4. **How distributed is our workforce across tier-1 headquarters versus lower-cost regional hubs?**  
-       *Answer:* **90.9%** are anchored in Tier 1 metros (Bengaluru, Hyderabad, Pune, Mumbai, Delhi NCR), with **9.1%** in emerging Tier 2/3 engineering centers (Coimbatore, Kochi, Erode).
+       *Answer:* **{tier1_pct:.1f}%** are anchored in Tier 1 metros (Bengaluru, Hyderabad, Pune, Mumbai, Delhi NCR), with **{tier23_pct:.1f}%** in emerging Tier 2/3 engineering centers (Coimbatore, Kochi, Erode).
     5. **What is our work mode distribution, and does it align with workplace policies?**  
-       *Answer:* **45.1% Hybrid (199 staff)**, **32.9% On-site (145 staff)**, and **22.0% Fully Remote (97 staff)**, demonstrating healthy adherence to flexible hybrid working.
+       *Answer:* **{hy_pct:.1f}% Hybrid ({hy_n} staff)**, **{on_pct:.1f}% On-site ({on_n} staff)**, and **{re_pct:.1f}% Fully Remote ({re_n} staff)**.
     """)
 
 # Chart Row 1: Headcount Growth Trend & Department Breakdown
@@ -312,8 +364,9 @@ with col_left:
         fillcolor='rgba(37, 99, 235, 0.08)'
     ))
     
+    trend_word = "Grew" if growth_pct >= 0 else "Declined"
     fig_trend.update_layout(
-        title=dict(text="<b>Headcount Grew 14.2% Reaching 441 in Sep 2026</b>", font=dict(size=16, color='#0F172A')),
+        title=dict(text=f"<b>Headcount {trend_word} {abs(growth_pct):.1f}% Reaching {cur_hc} in {latest_d:%b %Y}</b>", font=dict(size=16, color='#0F172A')),
         xaxis_title="Calendar Month",
         yaxis_title="Total Active Employees",
         margin=dict(l=20, r=20, t=50, b=20),
@@ -328,7 +381,7 @@ with col_left:
     
     st.markdown(f"""
     <div class="insight-badge">
-        📈 <b>Finding:</b> Total workforce expanded from 386 to <b>{current_hc} active personnel</b>, maintaining positive net monthly intake across 14 of the last 18 months.
+        📈 <b>Finding:</b> Total workforce moved from {base_hc} to <b>{current_hc} active personnel</b>, with positive net monthly intake in {pos_months} of the last {n_months} months.
     </div>
     """, unsafe_allow_html=True)
 
@@ -346,7 +399,7 @@ with col_right:
     
     fig_dept.update_traces(textposition='outside')
     fig_dept.update_layout(
-        title=dict(text="<b>Engineering & AI Account for 49.7% of Total Staff</b>", font=dict(size=16, color='#0F172A')),
+        title=dict(text=f"<b>Engineering & AI Account for {tech_pct:.1f}% of Total Staff</b>", font=dict(size=16, color='#0F172A')),
         xaxis_title="Headcount",
         yaxis_title="",
         margin=dict(l=20, r=20, t=50, b=20),
@@ -361,7 +414,7 @@ with col_right:
     eng_share = round((eng_count / current_hc) * 100, 1) if current_hc > 0 else 0
     st.markdown(f"""
     <div class="insight-badge">
-        🏛️ <b>Finding:</b> Engineering leads organizational size with <b>{eng_count} engineers ({eng_share}%)</b>, operating as the primary growth engine of Zenith Nova.
+        🏛️ <b>Finding:</b> Engineering has <b>{eng_count} engineers ({eng_share}%)</b>, operating as the primary growth engine of Zenith Nova.
     </div>
     """, unsafe_allow_html=True)
 
@@ -383,7 +436,7 @@ with col_loc:
     )
     fig_loc.update_traces(textinfo='label+percent', textposition='inside')
     fig_loc.update_layout(
-        title=dict(text="<b>90.9% of Personnel Stationed in Tier 1 Metros</b>", font=dict(size=16, color='#0F172A')),
+        title=dict(text=f"<b>{tier1_pct:.1f}% of Personnel Stationed in Tier 1 Metros</b>", font=dict(size=16, color='#0F172A')),
         margin=dict(l=20, r=20, t=50, b=20),
         height=340,
         showlegend=False,
@@ -392,10 +445,9 @@ with col_loc:
     )
     st.plotly_chart(fig_loc, use_container_width=True)
     
-    tier1_pct = df_loc[df_loc['city_tier'] == 'Tier 1']['share_pct'].iloc[0] if not df_loc.empty else 90.9
     st.markdown(f"""
     <div class="insight-badge">
-        📍 <b>Finding:</b> <b>{tier1_pct}% of employees</b> reside in primary metropolitan centers, providing proximity to enterprise clients while Tier 2/3 hubs offer cost optimization.
+        📍 <b>Finding:</b> <b>{tier1_pct:.1f}% of employees</b> reside in primary metropolitan centers, providing proximity to enterprise clients while Tier 2/3 hubs offer cost optimization.
     </div>
     """, unsafe_allow_html=True)
 
@@ -414,7 +466,7 @@ with col_mode:
     )
     fig_mode.update_traces(textinfo='label+percent', textposition='inside')
     fig_mode.update_layout(
-        title=dict(text="<b>Hybrid Model Leads with 45.1% Adoption Rate</b>", font=dict(size=16, color='#0F172A')),
+        title=dict(text=f"<b>Hybrid Model at {hy_pct:.1f}% Adoption Rate</b>", font=dict(size=16, color='#0F172A')),
         margin=dict(l=20, r=20, t=50, b=20),
         height=340,
         showlegend=False,
@@ -423,10 +475,9 @@ with col_mode:
     )
     st.plotly_chart(fig_mode, use_container_width=True)
     
-    hybrid_count = df_mode[df_mode['work_mode'] == 'Hybrid']['employee_count'].iloc[0] if not df_mode.empty else 199
     st.markdown(f"""
     <div class="insight-badge">
-        💻 <b>Finding:</b> <b>{hybrid_count} employees (45.1%)</b> leverage hybrid arrangements, optimizing physical real estate footprint while maintaining collaborative velocity.
+        💻 <b>Finding:</b> <b>{hy_n} employees ({hy_pct:.1f}%)</b> leverage hybrid arrangements, optimizing physical real estate footprint while maintaining collaborative velocity.
     </div>
     """, unsafe_allow_html=True)
 
