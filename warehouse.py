@@ -72,6 +72,11 @@ def build_warehouse(db_path=DB_PATH):
         con.execute(f"CREATE OR REPLACE TABLE warehouse.{fact} AS SELECT * FROM clean.{fact}")
         
     print(f"[+] Loaded {len(fact_tables)} fact tables into 'warehouse' schema.")
+
+    # 4. Budget & Target reference tables (Task 10)
+    con.execute("CREATE OR REPLACE TABLE warehouse.budget_payroll_dept_month AS SELECT * FROM raw.budget_payroll_dept_month")
+    con.execute("CREATE OR REPLACE TABLE warehouse.kpi_targets AS SELECT * FROM raw.kpi_targets")
+    print("[+] Loaded budget_payroll_dept_month and kpi_targets into 'warehouse' schema.")
     
     # Row Count Reconciliation
     print("\n" + "="*80)
