@@ -88,7 +88,7 @@ st.markdown("### 📋 Automated Test Execution Table")
 
 # Format display table
 display_df = df_results[['check_id', 'check_name', 'target_table', 'severity', 'bad_rows_count', 'status', 'sample_issue']].copy()
-st.dataframe(display_df, use_container_width=True, hide_index=True)
+st.dataframe(display_df, width='stretch', hide_index=True)
 
 st.markdown("---")
 st.markdown("### 🔍 11 Planted Issues Reconciliation (Auditor Comparison Note)")

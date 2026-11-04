@@ -338,7 +338,7 @@ with col_r1:
     )
     fig_rank.update_traces(texttemplate='₹%{text:,.0f}', textposition='outside')
     fig_rank.update_layout(legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1))
-    st.plotly_chart(fig_rank, use_container_width=True)
+    st.plotly_chart(fig_rank, width='stretch')
 
 with col_r2:
     st.markdown("#### 📋 Overspend Ranking Ledger")
@@ -352,7 +352,7 @@ with col_r2:
     
     st.dataframe(display_rank[["department_name", "Budget", "Actual", "Variance", "Variance %"]].rename(
         columns={"department_name": "Department"}
-    ), hide_index=True, use_container_width=True)
+    ), hide_index=True, width='stretch')
     st.caption("🚨 Top overspenders: Data & AI (D03, +₹992k) and Product & Design (D02, +₹608k).")
 
 # Monthly Variance Trend
@@ -402,7 +402,7 @@ fig_monthly_bva.update_layout(
     height=400,
     margin=dict(l=40, r=40, t=60, b=40)
 )
-st.plotly_chart(fig_monthly_bva, use_container_width=True)
+st.plotly_chart(fig_monthly_bva, width='stretch')
 
 # --------------------------------------------------
 # 6. KPI TARGETS & TRAFFIC-LIGHT MONITORING
@@ -471,7 +471,7 @@ if not filtered_kpi.empty:
         "Attendance (Act vs Tgt)", "Attendance Status",
         "Overtime (Act vs Tgt)", "Overtime Status",
         "Attrition (Act vs Tgt)", "Attrition Status"
-    ]].rename(columns={"department_name": "Department"}), hide_index=True, use_container_width=True)
+    ]].rename(columns={"department_name": "Department"}), hide_index=True, width='stretch')
 else:
     st.info("No KPI target records available for active selection (Executive Office D00 has no operational KPI targets).")
 

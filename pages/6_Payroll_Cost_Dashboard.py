@@ -307,7 +307,7 @@ with col_d1:
         height=400
     )
     fig_dept.update_layout(legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1))
-    st.plotly_chart(fig_dept, use_container_width=True)
+    st.plotly_chart(fig_dept, width='stretch')
 
 with col_d2:
     st.markdown("#### 🏢 Department Payroll Ledger (Privacy Protected)")
@@ -330,7 +330,7 @@ with col_d2:
         "Display Cost": "Employer Cost",
         "Cost / Employee": "Avg Cost / Head"
     })
-    st.dataframe(display_ledger, hide_index=True, use_container_width=True)
+    st.dataframe(display_ledger, hide_index=True, width='stretch')
     st.caption("🔒 Minimum group size rule (k ≥ 5) automatically masks compensation details for micro-departments to prevent deducing individual salaries.")
 
 # Monthly Trend Line Chart
@@ -374,7 +374,7 @@ fig_trend.update_layout(
     height=420,
     margin=dict(l=40, r=40, t=60, b=40)
 )
-st.plotly_chart(fig_trend, use_container_width=True)
+st.plotly_chart(fig_trend, width='stretch')
 
 # --------------------------------------------------
 # 6. INVESTIGATION OF THE BAD PAYROLL ROWS
@@ -386,12 +386,12 @@ col_bad1, col_bad2 = st.columns(2)
 with col_bad1:
     st.markdown("#### 🚫 Quarantined Duplicate Rows (DQ-02)")
     st.markdown("Two redundant rows were intercepted and quarantined during ingestion to prevent double disbursements:")
-    st.dataframe(df_quarantine[["payroll_item_id", "employee_id", "run_id", "gross_pay", "quarantine_reason"]], hide_index=True, use_container_width=True)
+    st.dataframe(df_quarantine[["payroll_item_id", "employee_id", "run_id", "gross_pay", "quarantine_reason"]], hide_index=True, width='stretch')
 
 with col_bad2:
     st.markdown("#### ⚠️ Unmapped Employee Keys (DQ-03)")
     st.markdown("Two payroll records referenced employee IDs not present in employee master data. Mapped to surrogate key `-1`:")
-    st.dataframe(df_orphans[["payroll_item_id", "employee_id", "run_id", "department_id", "gross_pay"]], hide_index=True, use_container_width=True)
+    st.dataframe(df_orphans[["payroll_item_id", "employee_id", "run_id", "department_id", "gross_pay"]], hide_index=True, width='stretch')
 
 # --------------------------------------------------
 # 7. THINK FOR YOURSELF: 3 CALM SENTENCES FOR FINANCE

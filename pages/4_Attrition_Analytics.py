@@ -366,7 +366,7 @@ fig_monthly.update_layout(
     height=420,
     margin=dict(l=40, r=40, t=60, b=40)
 )
-st.plotly_chart(fig_monthly, use_container_width=True)
+st.plotly_chart(fig_monthly, width='stretch')
 
 # Department Exits Distribution
 col_dept1, col_dept2 = st.columns([3, 2])
@@ -390,7 +390,7 @@ with col_dept1:
         height=380
     )
     fig_dept_bar.update_layout(legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1))
-    st.plotly_chart(fig_dept_bar, use_container_width=True)
+    st.plotly_chart(fig_dept_bar, width='stretch')
 
 with col_dept2:
     st.markdown("#### 🏢 Department Exit Breakdown")
@@ -403,7 +403,7 @@ with col_dept2:
         }
     )
     dept_table["Voluntary Share %"] = (dept_table["Voluntary"] / dept_table["Total Exits"].replace(0, 1) * 100).round(1).astype(str) + "%"
-    st.dataframe(dept_table[["Department", "Total Exits", "Voluntary", "Other", "Voluntary Share %"]], hide_index=True, use_container_width=True)
+    st.dataframe(dept_table[["Department", "Total Exits", "Voluntary", "Other", "Voluntary Share %"]], hide_index=True, width='stretch')
 
 # --------------------------------------------------
 # 5. SECTION 2: TENURE AT EXIT & RETENTION DYNAMICS
@@ -435,7 +435,7 @@ with col_ten1:
         height=380
     )
     fig_tenure.update_layout(legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1))
-    st.plotly_chart(fig_tenure, use_container_width=True)
+    st.plotly_chart(fig_tenure, width='stretch')
 
 with col_ten2:
     st.markdown("#### 📌 Key Tenure Distribution Metrics")
@@ -455,7 +455,7 @@ with col_ten2:
         # Average tenure by exit category
         avg_tenure_by_cat = filtered_exits.groupby("exit_category")["tenure_years"].mean().round(2).reset_index()
         avg_tenure_by_cat.columns = ["Departure Category", "Avg Tenure (Years)"]
-        st.dataframe(avg_tenure_by_cat, hide_index=True, use_container_width=True)
+        st.dataframe(avg_tenure_by_cat, hide_index=True, width='stretch')
     else:
         st.info("No exit tenure records found for the active filter.")
 
@@ -521,7 +521,7 @@ with col_risk1:
         height=380
     )
     fig_risk_bar.update_layout(legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1))
-    st.plotly_chart(fig_risk_bar, use_container_width=True)
+    st.plotly_chart(fig_risk_bar, width='stretch')
 
 with col_risk2:
     st.markdown("#### 📋 Cohort Risk & Privacy Ledger")
@@ -534,7 +534,7 @@ with col_risk2:
         "display_high_risk_pct": "High Risk %",
         "display_avg_score": "Avg Risk Score"
     })
-    st.dataframe(display_ledger, hide_index=True, use_container_width=True)
+    st.dataframe(display_ledger, hide_index=True, width='stretch')
     st.caption("🔒 Groups with fewer than threshold employees are automatically masked to safeguard individual privacy.")
 
 # --------------------------------------------------

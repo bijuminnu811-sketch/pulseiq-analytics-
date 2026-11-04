@@ -260,7 +260,7 @@ marks = (
     .encode(y=alt.Y("attendance_rate:Q", scale=alt.Scale(zero=False)))
 )
 
-st.altair_chart(line + marks, use_container_width=True)
+st.altair_chart(line + marks, width='stretch')
 
 st.caption(
     "Attendance rate = total present days / total scheduled days. "
@@ -294,7 +294,7 @@ heatmap = alt.Chart(heat).mark_rect().encode(
     ]
 )
 
-st.altair_chart(heatmap, use_container_width=True)
+st.altair_chart(heatmap, width='stretch')
 st.caption("Red = lower attendance, green = higher attendance.")
 
 # --------------------------------------------------
@@ -305,7 +305,7 @@ st.subheader("Calendar Context")
 
 st.dataframe(
     calendar_filtered,
-    use_container_width=True,
+    width='stretch',
     hide_index=True
 )
 
@@ -320,7 +320,7 @@ with st.expander("Check: is the denominator based on working days?"):
     check["scheduled_per_working_day"] = (
         check["scheduled_days"] / check["working_days"].replace(0, nan)
     )
-    st.dataframe(check, use_container_width=True, hide_index=True)
+    st.dataframe(check, width='stretch', hide_index=True)
     st.caption(
         "scheduled_per_working_day is about the number of employees. "
         "It should stay similar every month. If it jumps in months with "
@@ -346,7 +346,7 @@ with col1:
             alt.Tooltip("late_rate:Q", format=".2f")
         ]
     )
-    st.altair_chart(late_chart, use_container_width=True)
+    st.altair_chart(late_chart, width='stretch')
 
 with col2:
     st.subheader("Overtime Hours by Month")
@@ -359,7 +359,7 @@ with col2:
             alt.Tooltip("ot_per_day:Q", format=".3f")
         ]
     )
-    st.altair_chart(ot_chart, use_container_width=True)
+    st.altair_chart(ot_chart, width='stretch')
 
 st.caption(
     "Late arrivals are shown as a rate (per 100 present days), "
@@ -392,7 +392,7 @@ if not filtered_leave.empty:
                     y=alt.Y("leave_type:N", sort="-x", title="Leave type"),
                     tooltip=["leave_type", "leave_days"]
                 ),
-                use_container_width=True
+                width='stretch'
             )
         else:
             st.info("No approved leave records for this selection.")
@@ -409,7 +409,7 @@ if not filtered_leave.empty:
                     y=alt.Y("department_name:N", sort="-x", title="Department"),
                     tooltip=["department_name", "leave_days"]
                 ),
-                use_container_width=True
+                width='stretch'
             )
         else:
             st.info("No approved leave records for this selection.")
@@ -423,7 +423,7 @@ if not filtered_leave.empty:
             leave_days=("leave_days", "sum")
         )
     )
-    st.dataframe(status_summary, use_container_width=True, hide_index=True)
+    st.dataframe(status_summary, width='stretch', hide_index=True)
 
 else:
     st.info("No leave records match the selected filters.")
@@ -464,7 +464,7 @@ if len(monthly) >= 4:
     ]].copy()
     unusual["what_stood_out"] = unusual["month"].apply(what_stood_out)
 
-    st.dataframe(unusual, use_container_width=True, hide_index=True)
+    st.dataframe(unusual, width='stretch', hide_index=True)
     st.caption(
         "These months are far from the average (measured in standard "
         "deviations). Look at holidays and long weekends in the same row "
@@ -528,7 +528,7 @@ dept_totals["attendance_rate"] = (
 
 st.dataframe(
     dept_totals.sort_values("attendance_rate"),
-    use_container_width=True,
+    width='stretch',
     hide_index=True
 )
 
@@ -551,7 +551,7 @@ change["change_points"] = change["rate_in_low_month"] - change["own_average"]
 
 st.dataframe(
     change.sort_values("change_points"),
-    use_container_width=True,
+    width='stretch',
     hide_index=True
 )
 st.caption(
@@ -565,7 +565,7 @@ st.caption(
 # --------------------------------------------------
 
 with st.expander("View filtered attendance records"):
-    st.dataframe(filtered, use_container_width=True, hide_index=True)
+    st.dataframe(filtered, width='stretch', hide_index=True)
 
 with st.expander("View filtered leave records"):
-    st.dataframe(filtered_leave, use_container_width=True, hide_index=True)
+    st.dataframe(filtered_leave, width='stretch', hide_index=True)

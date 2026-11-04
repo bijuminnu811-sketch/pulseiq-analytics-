@@ -304,7 +304,7 @@ with col_v1:
     )
     fig_velo.update_traces(texttemplate='%{text:.0f} pts', textposition='outside')
     fig_velo.update_layout(coloraxis_showscale=False, margin=dict(r=50))
-    st.plotly_chart(fig_velo, use_container_width=True)
+    st.plotly_chart(fig_velo, width='stretch')
 
 with col_v2:
     # Cycle Time by Team
@@ -325,7 +325,7 @@ with col_v2:
     )
     fig_cycle.update_traces(texttemplate='%{text:.2f} d', textposition='outside')
     fig_cycle.update_layout(coloraxis_showscale=False, margin=dict(r=40))
-    st.plotly_chart(fig_cycle, use_container_width=True)
+    st.plotly_chart(fig_cycle, width='stretch')
 
 # --------------------------------------------------
 # 6. SPRINT TRENDS & SPRINT-OVER-SPRINT COMPARISON
@@ -353,7 +353,7 @@ with col_s1:
         height=360
     )
     fig_sprint_v.update_traces(line_color="#2563EB", line_width=2.5)
-    st.plotly_chart(fig_sprint_v, use_container_width=True)
+    st.plotly_chart(fig_sprint_v, width='stretch')
 
 with col_s2:
     # On-Time Delivery Rate & Cycle Time Trend
@@ -374,7 +374,7 @@ with col_s2:
     )
     fig_sprint_ot.add_hline(y=90.0, line_dash="dash", line_color="#10B981", annotation_text="90% Benchmark")
     fig_sprint_ot.update_traces(line_color="#10B981", line_width=2.5)
-    st.plotly_chart(fig_sprint_ot, use_container_width=True)
+    st.plotly_chart(fig_sprint_ot, width='stretch')
 
 # --------------------------------------------------
 # 7. BLOCKED WORK & REOPENED WORK COMPARISON
@@ -401,7 +401,7 @@ with col_q1:
         height=380
     )
     fig_block.update_layout(legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1))
-    st.plotly_chart(fig_block, use_container_width=True)
+    st.plotly_chart(fig_block, width='stretch')
 
 with col_q2:
     st.markdown("#### 🔍 Fair Comparison & Per-Capita Efficiency")
@@ -428,7 +428,7 @@ with col_q2:
         "on_time": "On-Time %",
         "rework_rate_pct": "Rework %"
     })
-    st.dataframe(display_table, hide_index=True, use_container_width=True)
+    st.dataframe(display_table, hide_index=True, width='stretch')
     st.caption("💡 Context note: Gross velocity reflects team size. 'Pts / Member' normalizes output to allow fair comparison between large and small teams.")
 
 # --------------------------------------------------

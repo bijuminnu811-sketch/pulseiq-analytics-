@@ -62,7 +62,7 @@ st.markdown(f"**Showing {len(filtered_cat)} of {len(df_cat)} governed metrics:**
 
 st.dataframe(
     filtered_cat[['metric_id', 'metric_name', 'business_definition', 'formula', 'grain', 'owner_team', 'unit', 'min_group_size']],
-    use_container_width=True,
+    width='stretch',
     hide_index=True
 )
 

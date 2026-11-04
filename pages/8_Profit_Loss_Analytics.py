@@ -226,7 +226,7 @@ fig_bar.update_layout(
     height=380,
     margin=dict(l=40, r=20, t=20, b=40),
 )
-st.plotly_chart(fig_bar, use_container_width=True)
+st.plotly_chart(fig_bar, width='stretch')
 
 # ─── Profit & Margin Trend ────────────────────────────────────────────────────
 st.subheader("📉 Profit & Margin Trend")
@@ -255,7 +255,7 @@ fig_trend.update_layout(
     height=380,
     margin=dict(l=40, r=60, t=20, b=40),
 )
-st.plotly_chart(fig_trend, use_container_width=True)
+st.plotly_chart(fig_trend, width='stretch')
 
 st.divider()
 
@@ -278,7 +278,7 @@ with col_cat1:
     )
     fig_cat.update_coloraxes(showscale=False)
     fig_cat.update_layout(margin=dict(l=10, r=20, t=20, b=30), yaxis=dict(autorange="reversed"))
-    st.plotly_chart(fig_cat, use_container_width=True)
+    st.plotly_chart(fig_cat, width='stretch')
 
 with col_cat2:
     st.subheader("🏷️ Category Share (Pie)")
@@ -291,7 +291,7 @@ with col_cat2:
     )
     fig_pie.update_traces(textposition="outside", textinfo="label+percent")
     fig_pie.update_layout(showlegend=False, margin=dict(l=10, r=10, t=20, b=30))
-    st.plotly_chart(fig_pie, use_container_width=True)
+    st.plotly_chart(fig_pie, width='stretch')
 
 # ─── Stacked Monthly Expense by Category ──────────────────────────────────────
 st.subheader("📦 Monthly Expense Breakdown by Category")
@@ -314,7 +314,7 @@ fig_stack.update_layout(
     legend=dict(orientation="h", yanchor="bottom", y=1.02, x=0),
     margin=dict(l=40, r=20, t=40, b=40),
 )
-st.plotly_chart(fig_stack, use_container_width=True)
+st.plotly_chart(fig_stack, width='stretch')
 
 st.divider()
 
@@ -338,14 +338,14 @@ fig_vendor.update_layout(
     margin=dict(l=10, r=20, t=20, b=30),
     yaxis=dict(autorange="reversed"),
 )
-st.plotly_chart(fig_vendor, use_container_width=True)
+st.plotly_chart(fig_vendor, width='stretch')
 
 # Vendor table
 st.dataframe(
     df_v[["vendor_name", "total_spent"]].rename(
         columns={"vendor_name": "Vendor", "total_spent": "Total Spent (₹)"}
     ).style.format({"Total Spent (₹)": "₹{:,.2f}"}),
-    use_container_width=True,
+    width='stretch',
     height=320,
 )
 
@@ -402,7 +402,7 @@ recon_data = {
 }
 
 df_recon = pd.DataFrame(recon_data)
-st.dataframe(df_recon, use_container_width=True, hide_index=True)
+st.dataframe(df_recon, width='stretch', hide_index=True)
 
 st.divider()
 
@@ -423,7 +423,7 @@ with st.expander("📋 Monthly P&L Detail Table", expanded=False):
             "Profit (₹)":  "₹{:,.0f}",
             "Margin %":    "{:.2f}%",
         }).background_gradient(subset=["Profit (₹)"], cmap="RdYlGn"),
-        use_container_width=True,
+        width='stretch',
         height=400,
     )
 
@@ -523,3 +523,4 @@ because the new revenue mix carries lower profitability.
 """)
 
 st.caption("PulseIQ Analytics · Task 11 · Phase 3 · Aura Workforce by GrowMar")
+
