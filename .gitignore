@@ -19,3 +19,11 @@ __pycache__/
 Thumbs.db
 .vscode/
 .idea/
+
+scratch/
+
+TASK2_VERIFICATION.txt
+check_*.py
+forecast_check.py
+inspect_*.py
+Phase_3/Task15_Executive_Health_Scorecard/03_Data/
