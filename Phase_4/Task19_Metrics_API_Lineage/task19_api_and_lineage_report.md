@@ -218,3 +218,4 @@ To safely rename any production column in PulseIQ:
 2. **Dual-Read Migration:** Update `metric_layer.py` to use `COALESCE(company_payroll_cost, employer_cost)`.
 3. **Deprecation Notice:** Issue 30-day API deprecation warning header (`Sunset: <date>`).
 4. **Final Cutover:** Retire legacy column after downstream consumers have migrated.
+

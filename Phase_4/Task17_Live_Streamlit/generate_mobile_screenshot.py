@@ -126,3 +126,4 @@ plt.tight_layout()
 plt.savefig(OUTPUT_PATH, dpi=200, bbox_inches='tight')
 plt.close()
 print(f"[+] Successfully generated mobile dashboard view: {OUTPUT_PATH}")
+

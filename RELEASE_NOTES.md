@@ -80,3 +80,4 @@ To maintain analytical rigor and prevent speculative data leaps, the following c
 2. **SCD Type 2 Value Matching Principle:** Transfers between departments allocate payroll costs to the source department for days worked prior to transfer, matching economic value generation.
 3. **Small-Group Suppression Threshold:** Mandated minimum cohort size of 5 employees for compensation/headcount metrics and 10 employees for attrition/flight risk metrics. Micro-cohorts below these thresholds are strictly masked with `[SUPPRESSED]`.
 4. **Data Cut-off Date:** All production data is conformed through **September 30, 2026 23:59:59 UTC**.
+

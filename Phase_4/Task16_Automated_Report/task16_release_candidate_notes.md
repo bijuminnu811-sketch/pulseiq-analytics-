@@ -119,3 +119,4 @@ requests==2.34.2
 ## 6. Git Release Candidate Tag
 
 Git tag `v1.0.0-rc1` has been prepared and marked for the repository release candidate.
+

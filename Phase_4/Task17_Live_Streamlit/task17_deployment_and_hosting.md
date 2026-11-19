@@ -111,3 +111,4 @@ In production, company records are refreshed on a structured cadence:
 |                     Streamlit Community Cloud automatically reloads latest record.      |
 +-----------------------------------------------------------------------------------------+
 ```
+

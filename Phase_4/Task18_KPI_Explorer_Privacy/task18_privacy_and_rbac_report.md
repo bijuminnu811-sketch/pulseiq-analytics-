@@ -105,3 +105,4 @@ Because the manager directly supervises and interacts daily with all 3 individua
 2. **Manager Privacy Break-Test Lab:**  
    `Phase_4/Task18_KPI_Explorer_Privacy/Task18_Role_View_Manager_Privacy_Break_Test.png`  
    Demonstrates real-time interception of micro-team ($n=2$) compensation and attrition queries.
+
