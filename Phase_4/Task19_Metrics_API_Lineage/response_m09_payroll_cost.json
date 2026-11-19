@@ -1,0 +1,30 @@
+{
+  "metric_id": "M09",
+  "metric_name": "Payroll cost (employer cost)",
+  "business_definition": "Total statutory employer payroll cost comprising gross pay, employer PF, and ESI contributions.",
+  "unit": "INR (currency)",
+  "reporting_period": "2026-09-01 to 2026-09-30",
+  "reporting_month": "2026-09",
+  "metric_value": 55519621.87,
+  "breakdown": {
+    "gross_pay_inr": 54788660.03,
+    "employer_pf_inr": 728355.29,
+    "net_pay_inr": 48089678.3,
+    "paid_employees_count": 444,
+    "average_cost_per_head_inr": 125044.19
+  },
+  "source_table": "warehouse.fact_payroll",
+  "lineage": {
+    "raw_source_table": "raw.fact_payroll",
+    "etl_pipeline_step": "etl.py (arithmetic validation, surrogate employee_key lookup)",
+    "warehouse_table": "warehouse.fact_payroll",
+    "governed_view": "metrics.m09_payroll_cost",
+    "downstream_consumers": [
+      "Payroll Dashboard (pages/6_Payroll_Cost_Dashboard.py)",
+      "P&L Analytics",
+      "REST API"
+    ]
+  },
+  "data_freshness": "2026-09-30 23:59:59 UTC",
+  "privacy_status": "Compliant (Company Level, Cohort > 5)"
+}

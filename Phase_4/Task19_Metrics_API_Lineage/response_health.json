@@ -1,0 +1,9 @@
+{
+  "status": "HEALTHY",
+  "service": "PulseIQ Analytics API",
+  "database_status": "CONNECTED (DuckDB 2.0.0)",
+  "active_warehouse_tables": 26,
+  "governed_metrics_views": 32,
+  "data_cut_off": "2026-09-30 23:59:59 UTC",
+  "system_timestamp": "2026-11-19T12:00:19.067318+00:00"
+}

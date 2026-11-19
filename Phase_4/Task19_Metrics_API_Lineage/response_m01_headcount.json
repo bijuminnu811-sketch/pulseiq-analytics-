@@ -1,0 +1,29 @@
+{
+  "metric_id": "M01",
+  "metric_name": "Headcount",
+  "business_definition": "Active employees on the last day of the calendar month.",
+  "unit": "count (employees)",
+  "reporting_period": "2026-09-01 to 2026-09-30",
+  "reporting_month": "2026-09",
+  "metric_value": 441,
+  "breakdown": {
+    "company_wide_total": true,
+    "hires": 17,
+    "exits": 3,
+    "headcount_start": 427
+  },
+  "source_table": "warehouse.fact_headcount_monthly",
+  "lineage": {
+    "raw_source_table": "raw.fact_headcount_monthly",
+    "etl_pipeline_step": "etl.py (contract validation, SCD Type 2 mapping)",
+    "warehouse_table": "warehouse.fact_headcount_monthly",
+    "governed_view": "metrics.m01_headcount",
+    "downstream_consumers": [
+      "Executive Dashboard (app.py)",
+      "KPI Explorer (pages/13_KPI_Explorer.py)",
+      "REST API"
+    ]
+  },
+  "data_freshness": "2026-09-30 23:59:59 UTC",
+  "privacy_status": "Compliant (Company Level)"
+}

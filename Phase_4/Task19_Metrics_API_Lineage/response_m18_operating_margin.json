@@ -1,0 +1,28 @@
+{
+  "metric_id": "M18",
+  "metric_name": "Operating margin",
+  "business_definition": "Net profit divided by recognized ledger revenue multiplied by 100.",
+  "unit": "percent (%)",
+  "reporting_period": "2026-09-01 to 2026-09-30",
+  "reporting_month": "2026-09",
+  "metric_value": 18.25,
+  "breakdown": {
+    "recognized_revenue_inr": 80268200.0,
+    "operating_expenses_inr": 65615715.87,
+    "net_operating_profit_inr": 14652484.13
+  },
+  "source_table": "warehouse.fact_ledger",
+  "lineage": {
+    "raw_source_table": "raw.fact_ledger",
+    "etl_pipeline_step": "etl.py (double-entry trial balance arithmetic checks)",
+    "warehouse_table": "warehouse.fact_ledger",
+    "governed_view": "metrics.m18_operating_margin",
+    "downstream_consumers": [
+      "P&L Analytics (pages/8_Profit_Loss_Analytics.py)",
+      "Executive Health Scorecard",
+      "REST API"
+    ]
+  },
+  "data_freshness": "2026-09-30 23:59:59 UTC",
+  "privacy_status": "Compliant (Entity Level Aggregate)"
+}

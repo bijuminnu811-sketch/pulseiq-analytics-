@@ -1,0 +1,102 @@
+{
+  "architecture": "PulseIQ Certified Multi-Hop Governed Data Pipeline",
+  "pipeline_stages": [
+    "1. RAW LAYER (03_Data/csv/ or raw schema)",
+    "2. CONTRACT VALIDATION & ETL (etl.py - schema contracts, dead-letter quarantine)",
+    "3. DIMENSIONAL WAREHOUSE (warehouse.py - SCD Type 2 dimensions, surrogate conformed facts)",
+    "4. DATA QUALITY GATEKEEPER (dq_gatekeeper.py - 14 automated SQL audit gates)",
+    "5. GOVERNED METRIC LAYER (metric_layer.py - 28 unified metric views with privacy masking)",
+    "6. CONSUMPTION (FastAPI REST endpoints & Streamlit Multi-Page Portal)"
+  ],
+  "five_exposed_metrics_lineage": {
+    "M01_Headcount": {
+      "raw": "raw.fact_headcount_monthly",
+      "etl": "etl.py (validates positive integer headcount, SCD key mapping)",
+      "warehouse": "warehouse.fact_headcount_monthly",
+      "metric_view": "metrics.m01_headcount",
+      "consumers": [
+        "app.py",
+        "pages/13_KPI_Explorer.py",
+        "GET /api/v1/metrics/headcount"
+      ]
+    },
+    "M04_Attrition_Rate": {
+      "raw": "raw.fact_headcount_monthly",
+      "etl": "etl.py (exit type categorisation, denominator alignment)",
+      "warehouse": "warehouse.fact_headcount_monthly",
+      "metric_view": "metrics.m04_attrition_rate_monthly",
+      "consumers": [
+        "pages/4_Attrition_Analytics.py",
+        "pages/12_Executive_Health_Scorecard.py",
+        "GET /api/v1/metrics/attrition-rate"
+      ]
+    },
+    "M09_Payroll_Cost": {
+      "raw": "raw.fact_payroll",
+      "etl": "etl.py (statutory PF/ESI contribution arithmetic verification)",
+      "warehouse": "warehouse.fact_payroll",
+      "metric_view": "metrics.m09_payroll_cost",
+      "consumers": [
+        "pages/6_Payroll_Cost_Dashboard.py",
+        "pages/8_Profit_Loss_Analytics.py",
+        "GET /api/v1/metrics/payroll-cost"
+      ]
+    },
+    "M13_Attendance_Rate": {
+      "raw": "raw.fact_attendance_monthly",
+      "etl": "etl.py (verifies present + wfh <= scheduled days cap)",
+      "warehouse": "warehouse.fact_attendance_monthly",
+      "metric_view": "metrics.m13_attendance_rate",
+      "consumers": [
+        "pages/3_Attendance_Leave_Trends.py",
+        "pages/12_Executive_Health_Scorecard.py",
+        "GET /api/v1/metrics/attendance-rate"
+      ]
+    },
+    "M18_Operating_Margin": {
+      "raw": "raw.fact_ledger",
+      "etl": "etl.py (double-entry trial balance debit/credit balance checks)",
+      "warehouse": "warehouse.fact_ledger",
+      "metric_view": "metrics.m18_operating_margin",
+      "consumers": [
+        "pages/8_Profit_Loss_Analytics.py",
+        "pages/12_Executive_Health_Scorecard.py",
+        "GET /api/v1/metrics/operating-margin"
+      ]
+    }
+  },
+  "column_rename_impact_analysis": {
+    "scenario": "Raw column 'employer_cost' in fact_payroll renamed to 'company_payroll_cost'",
+    "impact_trace": [
+      {
+        "component": "1. ETL Pipeline",
+        "file": "etl.py",
+        "impact": "Contract schema check fails during csv validation: expected 'employer_cost', column missing. Pipeline halts."
+      },
+      {
+        "component": "2. Warehouse DDL",
+        "file": "warehouse.py",
+        "impact": "INSERT INTO warehouse.fact_payroll fails due to attribute error 'employer_cost'."
+      },
+      {
+        "component": "3. Metric Layer",
+        "file": "metric_layer.py",
+        "impact": "Views 'metrics.m09_payroll_cost', 'metrics.m10_cost_per_head', and 'metrics.m11_overtime_share' fail to compile with BinderException."
+      },
+      {
+        "component": "4. REST API",
+        "file": "api.py",
+        "impact": "Endpoint 'GET /api/v1/metrics/payroll-cost' returns HTTP 500 Binder Error."
+      },
+      {
+        "component": "5. Streamlit Dashboards",
+        "files": [
+          "pages/6_Payroll_Cost_Dashboard.py",
+          "pages/8_Profit_Loss_Analytics.py",
+          "pages/12_Executive_Health_Scorecard.py"
+        ],
+        "impact": "Pages crash on render when executing SQL queries referencing m09_payroll_cost."
+      }
+    ]
+  }
+}

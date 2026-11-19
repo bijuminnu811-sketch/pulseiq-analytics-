@@ -1,0 +1,28 @@
+{
+  "metric_id": "M04",
+  "metric_name": "Attrition rate (monthly)",
+  "business_definition": "Monthly exits divided by start headcount multiplied by 100.",
+  "unit": "percent (%)",
+  "reporting_period": "2026-09-01 to 2026-09-30",
+  "reporting_month": "2026-09",
+  "metric_value": 0.7,
+  "breakdown": {
+    "total_exits": 3,
+    "headcount_start": 427,
+    "annualized_estimate_pct": 8.4
+  },
+  "source_table": "warehouse.fact_headcount_monthly",
+  "lineage": {
+    "raw_source_table": "raw.fact_headcount_monthly",
+    "etl_pipeline_step": "etl.py (exit reason validation, contract checks)",
+    "warehouse_table": "warehouse.fact_headcount_monthly",
+    "governed_view": "metrics.m04_attrition_rate_monthly",
+    "downstream_consumers": [
+      "Attrition Analytics (pages/4_Attrition_Analytics.py)",
+      "Executive Health Scorecard",
+      "REST API"
+    ]
+  },
+  "data_freshness": "2026-09-30 23:59:59 UTC",
+  "privacy_status": "Compliant (Company Level, Cohort > 10)"
+}

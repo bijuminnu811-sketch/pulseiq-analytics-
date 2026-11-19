@@ -1,0 +1,29 @@
+{
+  "metric_id": "M13",
+  "metric_name": "Attendance rate",
+  "business_definition": "Total present working days plus weighted half-days divided by scheduled working days multiplied by 100.",
+  "unit": "percent (%)",
+  "reporting_period": "2026-09-01 to 2026-09-30",
+  "reporting_month": "2026-09",
+  "metric_value": 95.19,
+  "breakdown": {
+    "present_days": 8655,
+    "half_days_unpaid": 35,
+    "effective_present_days": 8672.5,
+    "scheduled_days": 9111
+  },
+  "source_table": "warehouse.fact_attendance_monthly",
+  "lineage": {
+    "raw_source_table": "raw.fact_attendance_monthly",
+    "etl_pipeline_step": "etl.py (attendance cap checks, timing contract verification)",
+    "warehouse_table": "warehouse.fact_attendance_monthly",
+    "governed_view": "metrics.m13_attendance_rate",
+    "downstream_consumers": [
+      "Attendance Trends (pages/3_Attendance_Leave_Trends.py)",
+      "Executive Health Scorecard",
+      "REST API"
+    ]
+  },
+  "data_freshness": "2026-09-30 23:59:59 UTC",
+  "privacy_status": "Compliant (Company Level, Cohort > 5)"
+}
