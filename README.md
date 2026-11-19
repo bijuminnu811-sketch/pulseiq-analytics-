@@ -90,7 +90,9 @@ Every task folder contains dashboard screenshots and a written report with findi
 - Phase_1/docs/DataAnalytics_Minnu_Phase1_Report.pdf
 - Phase_2/DataAnalytics_MinnuBiju_Phase2_Report.pdf
 - Phase_3/DataAnalytics_MinnuBiju_Phase3_Report.pdf
+- Phase_4/DataAnalytics_MinnuBiju_Phase4_Report.pdf
 - Phase_4/Task16_Automated_Report/PulseIQ_Monthly_Report_2026-09.pdf
+- Phase_4/Task20_Board_Pack_Handover/PulseIQ_Executive_Board_Pack.pdf
 
 ## How to Run
 
@@ -108,6 +110,12 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
+### Run System Doctor Diagnostic (Meaningful Improvement)
+Verify entire platform health, database integrity, schema row reconciliation, gatekeeper tests, and API probes in 5 seconds:
+```bash
+python pulseiq_doctor.py
+```
+
 ### One-Command Monthly Report Generation (Task 16)
 Generate the automated 3-page executive report pack in PDF and Markdown:
 ```bash
@@ -119,10 +127,26 @@ python build_report.py --month 2026-09
 ```
 Output files are generated in `Phase_4/Task16_Automated_Report/`.
 
-### Run Streamlit Executive Portal
+### Run Governed Metrics REST API (Task 19)
+```bash
+uvicorn api:app --host 0.0.0.0 --port 8000
+```
+Interactive Swagger documentation is available at `http://localhost:8000/docs`.
+
+### Run Streamlit Executive Portal (Task 17 & 18)
 ```bash
 streamlit run app.py
 ```
+Live hosted application: [https://pulseiq-analytics.streamlit.app](https://pulseiq-analytics.streamlit.app)
+
+## Governance & Final Challenge Analysis
+
+### 1. Meaningful Improvement (`pulseiq_doctor.py`)
+Developed a standalone diagnostic utility that automates multi-stage verification across environments, schemas, row counts, data quality gates, privacy masking, and API probes.
+
+### 2. Critical Analytical Discipline: What NOT to Recommend
+**Do NOT recommend cutting Sales or Marketing headcount or blaming specific managers for departmental turnover.**
+The PulseIQ transactional warehouse tracks operational ledger entries, attendance, and sprint tasks, but lacks Customer Acquisition Cost (CAC), lead conversion funnels, and employee exit interview sentiment. Recommending structural headcount reductions or judging managerial capability without pipeline or sentiment evidence would be an irresponsible analytical overreach unsupported by empirical data.
 
 ## Key Learnings
 

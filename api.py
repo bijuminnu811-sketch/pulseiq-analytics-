@@ -35,6 +35,12 @@ def get_db():
         raise HTTPException(status_code=500, detail="Database file pulseiq.duckdb not found")
     return duckdb.connect(DB_PATH, read_only=True)
 
+def resolve_param(val, default=None):
+    """Resolves FastAPI Query default objects if called directly in Python."""
+    if hasattr(val, "default"):
+        return val.default if val.default is not ... else default
+    return val if val is not None else default
+
 # ------------------------------------------------------------------------------
 # PYDANTIC RESPONSE MODELS
 # ------------------------------------------------------------------------------
@@ -117,6 +123,8 @@ def get_headcount(
     month: str = Query("2026-09", pattern="^[0-9]{4}-[0-9]{2}$", description="Reporting month (YYYY-MM)"),
     department_id: Optional[str] = Query(None, description="Optional department filter (e.g. D01)")
 ):
+    month = resolve_param(month, "2026-09")
+    department_id = resolve_param(department_id, None)
     con = get_db()
     start_date = f"{month}-01"
     
@@ -179,6 +187,7 @@ def get_headcount(
 def get_attrition_rate(
     month: str = Query("2026-09", pattern="^[0-9]{4}-[0-9]{2}$", description="Reporting month (YYYY-MM)")
 ):
+    month = resolve_param(month, "2026-09")
     con = get_db()
     start_date = f"{month}-01"
     row = con.execute("""
@@ -220,6 +229,7 @@ def get_attrition_rate(
 def get_payroll_cost(
     month: str = Query("2026-09", pattern="^[0-9]{4}-[0-9]{2}$", description="Reporting month (YYYY-MM)")
 ):
+    month = resolve_param(month, "2026-09")
     con = get_db()
     row = con.execute("""
         SELECT 
@@ -269,6 +279,7 @@ def get_payroll_cost(
 def get_attendance_rate(
     month: str = Query("2026-09", pattern="^[0-9]{4}-[0-9]{2}$", description="Reporting month (YYYY-MM)")
 ):
+    month = resolve_param(month, "2026-09")
     con = get_db()
     row = con.execute("""
         SELECT 
@@ -317,6 +328,7 @@ def get_attendance_rate(
 def get_operating_margin(
     month: str = Query("2026-09", pattern="^[0-9]{4}-[0-9]{2}$", description="Reporting month (YYYY-MM)")
 ):
+    month = resolve_param(month, "2026-09")
     con = get_db()
     row = con.execute("""
         WITH rev AS (
