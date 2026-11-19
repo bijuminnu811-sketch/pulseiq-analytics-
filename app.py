@@ -107,6 +107,32 @@ st.markdown("""
         border-left-color: #EF4444;
         color: #991B1B;
     }
+
+    /* Mobile & Phone Responsive Optimizations */
+    @media (max-width: 768px) {
+        .main-header {
+            padding: 16px 20px !important;
+            margin-bottom: 16px !important;
+        }
+        .main-header h1 {
+            font-size: 20px !important;
+        }
+        .kpi-container {
+            flex-direction: column !important;
+            gap: 10px !important;
+        }
+        .kpi-card {
+            padding: 14px 16px !important;
+            margin-bottom: 8px !important;
+        }
+        .kpi-value {
+            font-size: 22px !important;
+        }
+        .insight-badge {
+            font-size: 12px !important;
+            padding: 10px 12px !important;
+        }
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -165,16 +191,36 @@ df_trend, df_loc, df_mode, df_att = load_data()
 st.markdown("""
 <div class="main-header">
     <div style="font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: #94A3B8; margin-bottom: 4px;">
-        PulseIQ Governed Analytics • Executive Suite
+        PulseIQ Governed Analytics • Production Live Suite
     </div>
     <h1 style="margin: 0; font-size: 28px; font-weight: 800; color: white;">Workforce, Headcount & Talent Dynamics</h1>
-    <p style="margin: 6px 0 0 0; color: #CBD5E1; font-size: 14px;">
-        Verified single source of truth powered by the Governed Metric Layer (Cutoff: September 30, 2026).
+    <p style="margin: 6px 0 0 0; color: #CBD5E1; font-size: 13.5px;">
+        <b>Data Cut-off Date:</b> September 30, 2026 23:59:59 UTC &nbsp;|&nbsp; 
+        <b>Freshness:</b> Verified Governed Record (100% Reconciled) &nbsp;|&nbsp; 
+        <b>Engine:</b> DuckDB 2.0.0
     </p>
 </div>
 """, unsafe_allow_html=True)
 
-# Sidebar Filters
+# Sidebar Filters & Navigation
+st.sidebar.markdown("### 🧭 Portal Navigation")
+with st.sidebar.expander("Explore Dashboard Pages", expanded=False):
+    st.markdown("""
+    - **Workforce Dynamics** (Landing)
+    - **1. Data Quality Gatekeeper**
+    - **2. Governed Metric Catalog**
+    - **3. Attendance & Leave Trends**
+    - **4. Attrition Analytics**
+    - **5. Team Productivity**
+    - **6. Payroll Cost Dashboard**
+    - **7. Budget vs Actual KPIs**
+    - **8. Profit & Loss Analytics**
+    - **9. Invoices & Receivables Cash Flow**
+    - **10. Cross Department Impact**
+    - **11. AI Signals Dashboard**
+    - **12. Executive Health Scorecard**
+    """)
+
 st.sidebar.markdown("### 🎛️ Governance Filters")
 st.sidebar.info("Data sourced directly from `metrics.*` views. Privacy small-group masking is automatically enforced.")
 
@@ -377,7 +423,7 @@ with col_left:
     )
     fig_trend.update_xaxes(showgrid=True, gridcolor='#F1F5F9')
     fig_trend.update_yaxes(showgrid=True, gridcolor='#F1F5F9')
-    st.plotly_chart(fig_trend, use_container_width=True)
+    st.plotly_chart(fig_trend, width='stretch')
     
     st.markdown(f"""
     <div class="insight-badge">
@@ -408,7 +454,7 @@ with col_right:
         paper_bgcolor='white'
     )
     fig_dept.update_xaxes(showgrid=True, gridcolor='#F1F5F9')
-    st.plotly_chart(fig_dept, use_container_width=True)
+    st.plotly_chart(fig_dept, width='stretch')
     
     eng_count = latest_slice[latest_slice['department_name'] == 'Engineering']['headcount_end'].sum()
     eng_share = round((eng_count / current_hc) * 100, 1) if current_hc > 0 else 0
@@ -443,7 +489,7 @@ with col_loc:
         plot_bgcolor='white',
         paper_bgcolor='white'
     )
-    st.plotly_chart(fig_loc, use_container_width=True)
+    st.plotly_chart(fig_loc, width='stretch')
     
     st.markdown(f"""
     <div class="insight-badge">
@@ -473,7 +519,7 @@ with col_mode:
         plot_bgcolor='white',
         paper_bgcolor='white'
     )
-    st.plotly_chart(fig_mode, use_container_width=True)
+    st.plotly_chart(fig_mode, width='stretch')
     
     st.markdown(f"""
     <div class="insight-badge">
