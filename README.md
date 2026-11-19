@@ -73,6 +73,16 @@ Designed the star schema, built the ETL pipeline, loaded the data into DuckDB, d
 | 14 | AI signals: anomaly money risk, attrition risk, forecast vs actual error |
 | 15 | Executive Health Scorecard |
 
+### Phase 4: Release & Handover (Tasks 16 to 20)
+
+| Task | Focus |
+|------|-------|
+| 16 | Automated Monthly Report Builder (`build_report.py`) & Release Candidate `v1.0.0-rc1` |
+| 17 | Live Streamlit Dashboard Deployment & Production Readiness |
+| 18 | Self-Service Governed KPI Explorer with Strict Privacy Guardrails |
+| 19 | Enterprise Metrics API (FastAPI) & End-to-End Data Lineage |
+| 20 | Executive Board Pack, Release Notes & Final Handover (`v1.0.0`) |
+
 Every task folder contains dashboard screenshots and a written report with findings.
 
 ## Reports
@@ -80,21 +90,38 @@ Every task folder contains dashboard screenshots and a written report with findi
 - Phase_1/docs/DataAnalytics_Minnu_Phase1_Report.pdf
 - Phase_2/DataAnalytics_MinnuBiju_Phase2_Report.pdf
 - Phase_3/DataAnalytics_MinnuBiju_Phase3_Report.pdf
+- Phase_4/Task16_Automated_Report/PulseIQ_Monthly_Report_2026-09.pdf
 
 ## How to Run
 
+### Setup Environment
 ```bash
 git clone https://github.com/bijuminnu811-sketch/pulseiq-analytics-.git
 cd pulseiq-analytics-
 
 python -m venv .venv
+# Windows:
 .venv\Scripts\activate
-pip install -r Phase_1/05_Starter/requirements.txt
+# Linux/macOS:
+source .venv/bin/activate
 
-python Phase_1/05_Starter/etl.py
-python Phase_1/05_Starter/load_to_duckdb.py
+pip install -r requirements.txt
+```
 
-streamlit run pages/12_Executive_Health_Scorecard.py
+### One-Command Monthly Report Generation (Task 16)
+Generate the automated 3-page executive report pack in PDF and Markdown:
+```bash
+# Generate report for September 2026 (default)
+python build_report.py
+
+# Or specify any reporting month
+python build_report.py --month 2026-09
+```
+Output files are generated in `Phase_4/Task16_Automated_Report/`.
+
+### Run Streamlit Executive Portal
+```bash
+streamlit run app.py
 ```
 
 ## Key Learnings
