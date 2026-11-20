@@ -24,7 +24,7 @@ PDF_PATHS = [
 ]
 
 GITHUB_URL = "https://github.com/bijuminnu811-sketch/pulseiq-analytics-.git"
-LIVE_URL = "https://pulseiq-analytics.streamlit.app"
+LIVE_URL = "https://pulseiq-minnu.streamlit.app"
 
 class NumberedCanvas(canvas.Canvas):
     def __init__(self, *args, **kwargs):
@@ -126,7 +126,7 @@ def build_pdf(target_pdf_path):
         ],
         [
             Paragraph(f"<b>GitHub Repository:</b> <a href='{GITHUB_URL}'><font color='#2563EB'><u>bijuminnu811-sketch/pulseiq-analytics-</u></font></a>", body_style),
-            Paragraph(f"<b>Live Dashboard:</b> <a href='{LIVE_URL}'><font color='#2563EB'><u>pulseiq-analytics.streamlit.app</u></font></a>", body_style)
+            Paragraph(f"<b>Live Dashboard:</b> <a href='{LIVE_URL}'><font color='#2563EB'><u>pulseiq-minnu.streamlit.app</u></font></a>", body_style)
         ],
         [
             Paragraph("<b>Git Release Tags:</b> <font color='#10B981'><b>phase-1, phase-2, phase-4, v1.0.0</b></font>", body_style),
@@ -399,7 +399,7 @@ def build_pdf(target_pdf_path):
     story.append(Paragraph("9. Live Link, Honest Limits & Final Challenge", h1_style))
     story.append(Paragraph(
         "<b>Live Production Deployment:</b><br/>"
-        "• Live URL: <a href='https://pulseiq-analytics.streamlit.app'><font color='#2563EB'><u>https://pulseiq-analytics.streamlit.app</u></font></a><br/>"
+        "• Live URL: <a href='https://pulseiq-minnu.streamlit.app'><font color='#2563EB'><u>https://pulseiq-minnu.streamlit.app</u></font></a><br/>"
         "• How to Test as a Stranger: Open link in an Incognito browser or mobile phone; landing page loads instantly without login. "
         "Navigate via the sidebar to 'Workforce Dynamics' to observe active headcount (441), or visit '13. KPI Explorer' to test role simulation.<br/><br/>"
         "<b>Honest Limitations & Critical Analytical Discipline:</b><br/>"

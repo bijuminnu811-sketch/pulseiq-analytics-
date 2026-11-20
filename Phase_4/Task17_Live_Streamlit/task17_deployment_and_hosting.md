@@ -3,7 +3,7 @@
 **Author:** Minnu Biju  
 **Project:** PulseIQ Workforce Analytics  
 **Phase:** 4 — Release (Task 17)  
-**Live URL:** `https://pulseiq-analytics.streamlit.app`  
+**Live URL:** `https://pulseiq-minnu.streamlit.app`  
 **GitHub Repository:** [https://github.com/bijuminnu811-sketch/pulseiq-analytics-.git](https://github.com/bijuminnu811-sketch/pulseiq-analytics-.git)  
 **Main Entry Point:** `app.py`  
 **Execution Date:** November 2026  

@@ -29,7 +29,7 @@ ax.add_patch(notch)
 
 # 2. Browser Navigation / Streamlit Cloud Bar
 ax.fill_between([0, 100], 186, 194, color='#1E293B')
-ax.text(12, 190, "🔒 pulseiq-analytics.streamlit.app", color='#94A3B8', fontsize=6.5, va='center')
+ax.text(12, 190, "🔒 pulseiq-minnu.streamlit.app", color='#94A3B8', fontsize=6.5, va='center')
 ax.text(92, 190, "☰", color='white', fontsize=9, ha='right', va='center')
 
 # 3. Main Executive Header Card (Navy Gradient)

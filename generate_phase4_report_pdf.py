@@ -23,7 +23,7 @@ PDF_PATHS = [
 ]
 
 GITHUB_URL = "https://github.com/bijuminnu811-sketch/pulseiq-analytics-.git"
-LIVE_URL = "https://pulseiq-analytics.streamlit.app"
+LIVE_URL = "https://pulseiq-minnu.streamlit.app"
 
 class NumberedCanvas(canvas.Canvas):
     def __init__(self, *args, **kwargs):

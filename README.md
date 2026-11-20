@@ -1,13 +1,13 @@
 # PulseIQ Analytics
 
-[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://pulseiq-analytics.streamlit.app)
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://pulseiq-minnu.streamlit.app)
 [![Release v1.0.0](https://img.shields.io/badge/Release-v1.0.0-10B981.svg)](https://github.com/bijuminnu811-sketch/pulseiq-analytics-/releases/tag/v1.0.0)
 [![Python 3.12%20%7C%203.13](https://img.shields.io/badge/Python-3.12%20%7C%203.13-3B82F6.svg)](https://www.python.org/)
 [![DuckDB 2.0](https://img.shields.io/badge/DuckDB-2.0.0-FFF000.svg)](https://duckdb.org/)
 
 An end-to-end HR, finance and delivery analytics project built as part of my Data Analytics internship. PulseIQ turns raw company data into a governed data model, quality-checked KPIs, AI-driven risk signals and an executive health scorecard.
 
-🔗 **Live Executive Dashboard:** [https://pulseiq-analytics.streamlit.app](https://pulseiq-analytics.streamlit.app)  
+🔗 **Live Executive Dashboard:** [https://pulseiq-minnu.streamlit.app](https://pulseiq-minnu.streamlit.app)  
 **Author:** Minnu Biju  
 **GitHub Repository:** [bijuminnu811-sketch/pulseiq-analytics-](https://github.com/bijuminnu811-sketch/pulseiq-analytics-)  
 
@@ -17,7 +17,7 @@ An end-to-end HR, finance and delivery analytics project built as part of my Dat
 
 The production analytics suite is deployed directly from this GitHub repository and accessible in any modern web browser or mobile phone:
 
-👉 **[Launch Live Streamlit Dashboard](https://pulseiq-analytics.streamlit.app)**
+👉 **[Launch Live Streamlit Dashboard](https://pulseiq-minnu.streamlit.app)**
 
 <div align="center">
   <img src="Phase_4/Task17_Live_Streamlit/Task17_Mobile_Dashboard_View.png" alt="PulseIQ Mobile Dashboard" width="340" />
@@ -157,7 +157,7 @@ Interactive Swagger documentation is available at `http://localhost:8000/docs`.
 ```bash
 streamlit run app.py
 ```
-Live hosted application: [https://pulseiq-analytics.streamlit.app](https://pulseiq-analytics.streamlit.app)
+Live hosted application: [https://pulseiq-minnu.streamlit.app](https://pulseiq-minnu.streamlit.app)
 
 ## Governance & Final Challenge Analysis
 

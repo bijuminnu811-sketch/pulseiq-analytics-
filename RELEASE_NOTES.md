@@ -7,7 +7,7 @@
 **Release Date:** November 2026  
 **Git Tag:** `v1.0.0`  
 **Previous Tag:** `v1.0.0-rc1` (Release Candidate)  
-**Live URL:** [https://pulseiq-analytics.streamlit.app](https://pulseiq-analytics.streamlit.app)  
+**Live URL:** [https://pulseiq-minnu.streamlit.app](https://pulseiq-minnu.streamlit.app)  
 **GitHub Repository:** [https://github.com/bijuminnu811-sketch/pulseiq-analytics-.git](https://github.com/bijuminnu811-sketch/pulseiq-analytics-.git)  
 
 ---
@@ -63,7 +63,7 @@ To maintain analytical rigor and prevent speculative data leaps, the following c
 
 ## 4. Deployment Information
 
-- **Primary Production Host:** Streamlit Community Cloud ([https://pulseiq-analytics.streamlit.app](https://pulseiq-analytics.streamlit.app))
+- **Primary Production Host:** Streamlit Community Cloud ([https://pulseiq-minnu.streamlit.app](https://pulseiq-minnu.streamlit.app))
 - **Repository:** `https://github.com/bijuminnu811-sketch/pulseiq-analytics-.git`
 - **Branch:** `main`
 - **Entry Point:** `app.py`

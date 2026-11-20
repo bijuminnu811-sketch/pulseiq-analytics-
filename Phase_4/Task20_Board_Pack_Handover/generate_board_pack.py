@@ -557,7 +557,7 @@ def build_board_pack():
                       "• Official Release Tag: <font color='#10B981'><b>v1.0.0</b></font><br/>"
                       "• Release Candidate: <b>v1.0.0-rc1</b><br/>"
                       "• GitHub Repository: <b>bijuminnu811-sketch/pulseiq-analytics-</b><br/>"
-                      "• Live Dashboard: <b>https://pulseiq-analytics.streamlit.app</b>", body_style)
+                      "• Live Dashboard: <b>https://pulseiq-minnu.streamlit.app</b>", body_style)
         ]
     ]
     t_ho = Table(handover_data, colWidths=[360, 352])
@@ -670,7 +670,7 @@ def build_markdown_deck():
         "- **Release Version:** `v1.0.0` (Git Tagged & Pushed)",
         "- **Author:** Minnu Biju (Data Analytics Track)",
         "- **GitHub Repository:** [bijuminnu811-sketch/pulseiq-analytics-](https://github.com/bijuminnu811-sketch/pulseiq-analytics-)",
-        "- **Live Application:** [https://pulseiq-analytics.streamlit.app](https://pulseiq-analytics.streamlit.app)"
+        "- **Live Application:** [https://pulseiq-minnu.streamlit.app](https://pulseiq-minnu.streamlit.app)"
     ]
 
     with open(MD_PATH, "w", encoding="utf-8") as f:

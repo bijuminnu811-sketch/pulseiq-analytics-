@@ -77,4 +77,4 @@
 - **Release Version:** `v1.0.0` (Git Tagged & Pushed)
 - **Author:** Minnu Biju (Data Analytics Track)
 - **GitHub Repository:** [bijuminnu811-sketch/pulseiq-analytics-](https://github.com/bijuminnu811-sketch/pulseiq-analytics-)
-- **Live Application:** [https://pulseiq-analytics.streamlit.app](https://pulseiq-analytics.streamlit.app)
+- **Live Application:** [https://pulseiq-minnu.streamlit.app](https://pulseiq-minnu.streamlit.app)
