@@ -443,3 +443,4 @@ def build_pdf(target_pdf_path):
 if __name__ == "__main__":
     for p in PDF_PATHS:
         build_pdf(p)
+
