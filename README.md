@@ -241,3 +241,8 @@ The Streamlit Community Cloud only runs a single process, so the API must be hos
 **Important** – do **not** claim the API is live in any documentation until you have completed the steps above and verified the URLs.
 
 ---
+
+## Note on Scheduled Refresh
+
+The automatic weekly schedule is switched off. The ETL refresh (python etl.py) works locally. The GitHub Actions run failed because the raw source files are not stored in this repository. The workflow can still be started manually. This is a known limitation.
+
